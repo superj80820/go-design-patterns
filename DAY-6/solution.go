@@ -5,9 +5,14 @@ import (
 	"time"
 )
 
-func PushNews(news string, startTime time.Time) {
-	time.Sleep(time.Duration(3 * time.Second)) //模擬推播運行的時間
-	fmt.Printf("%s Cost %s\n", news, time.Since(startTime))
+func PushNews(news string, startTime time.Time) <-chan time.Time {
+	newsCh := make(chan time.Time)
+	go func() {
+		time.Sleep(time.Duration(3 * time.Second)) //模擬推播運行的時間
+		fmt.Printf("%s cost %s\n", news, time.Since(startTime))
+		newsCh <- time.Now()
+	}()
+	return newsCh
 }
 
 func main() {
@@ -17,8 +22,14 @@ func main() {
 		"記得",
 		"不要戶外烤肉～",
 	}
+	newsChs := []<-chan time.Time{}
 	for _, news := range allNews {
-		go PushNews(news, start)
+		newsChs = append(newsChs, PushNews(news, start))
 	}
-	time.Sleep(10 * time.Second) //等待goroutine執行完畢
+
+	// do something
+
+	for index, newsCh := range newsChs {
+		fmt.Printf("news %d is sent at %s\n", index, <-newsCh)
+	}
 }

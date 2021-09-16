@@ -5,9 +5,10 @@ import (
 	"time"
 )
 
-func PushNews(news string, startTime time.Time) {
+func PushNews(news string, startTime time.Time) time.Time {
 	time.Sleep(time.Duration(3 * time.Second)) //模擬推播運行的時間
 	fmt.Printf("%s Cost %s\n", news, time.Since(startTime))
+	return time.Now()
 }
 
 func main() {
@@ -18,7 +19,7 @@ func main() {
 		"不要戶外烤肉～",
 	}
 	for _, news := range allNews {
-		PushNews(news, start)
+		go PushNews(news, start)
 	}
-	fmt.Printf("cost %s", time.Since(start))
+	time.Sleep(10 * time.Second) //等待goroutine執行完畢
 }

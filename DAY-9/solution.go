@@ -35,11 +35,12 @@ func main() {
 	}
 
 	for _, news := range allNews {
+		fmt.Println(news)
 		jobs <- news
 	}
 
 	// do something
-
+	//yorktodo
 	for r := 1; r <= len(allNews); r++ {
 		result := <-results
 		fmt.Printf("news %s is sent at %s\n", result.NewsName, result.FinishTime)

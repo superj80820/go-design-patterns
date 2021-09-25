@@ -8,12 +8,12 @@ import (
 )
 
 func main() {
-	c := make(chan os.Signal, 1)
-	signal.Notify(c, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
+	done := make(chan os.Signal, 1)
+	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	go func() {
 		for {
 			select {
-			case <-c:
+			case <-done:
 				fmt.Println("bye bye")
 				os.Exit(1)
 			}

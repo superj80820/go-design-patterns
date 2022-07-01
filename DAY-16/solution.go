@@ -90,7 +90,7 @@ func (n *NintendoFactory) GameMachineFactory() GameMachine {
 	switchMachine.addCDMachine()
 	switchMachine.addCPU()
 	switchMachine.addGPU()
-	return &PS5{}
+	return &Switch{}
 }
 
 func (n *NintendoFactory) GameFactory() Game {
